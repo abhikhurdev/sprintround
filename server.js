@@ -22,14 +22,6 @@ const broadcast = (data) => {
 
 wss.on('connection', (ws) => {
   ws.send(JSON.stringify({ type: 'update', data: teams }));
-  console.log('Client connected');
-  ws.isAlive = true;
-  ws.on('pong', () => {
-    ws.isAlive = true;
-});
-  
-
- 
     ws.on('message', (message) => {
         const data = JSON.parse(message);
         switch (data.type) {
@@ -49,20 +41,11 @@ wss.on('connection', (ws) => {
         saveTeams();
         broadcast({ type: 'update', data: teams });
     });
-    ws.on('close', () => {
+  ws.on('close', () => {
       console.log('WebSocket connection closed');
   });
 });
 
-// Ping every 30 seconds to keep the connections alive
-setInterval(() => {
-  wss.clients.forEach((ws) => {
-      if (!ws.isAlive) return ws.terminate();
-      
-      ws.isAlive = false;
-      ws.ping(null, false, true);
-  });
-}, 5000);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
