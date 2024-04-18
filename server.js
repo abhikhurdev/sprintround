@@ -6,49 +6,40 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-// Serve static files from 'public' directory
 app.use(express.static('public'));
 
-// Broadcast to all clients
-const broadcast = (data) => {
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(data));
-    }
-  });
+let teams = {
+    team1: { name: "Team 1", score: 0 },
+    team2: { name: "Team 2", score: 0 },
+    team3: { name: "Team 3", score: 0 }
 };
 
-// Handle WebSocket connection
+const broadcast = (data) => {
+    wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(data));
+        }
+    });
+};
+
 wss.on('connection', (ws) => {
-  console.log('Client connected');
-  ws.isAlive = true;
+    // Immediately send current scores and names
+    ws.send(JSON.stringify({ type: 'update', data: teams }));
 
-  // Send initial score when a new client connects
-  const initialScore = { teamA: 0, teamB: 0 };
-  ws.send(JSON.stringify(initialScore));
+    ws.on('message', (message) => {
+        const data = JSON.parse(message);
 
-  ws.on('pong', () => {
-      ws.isAlive = true;
-  });
+        if (data.type === 'scoreUpdate') {
+            teams[data.team].score += data.score;
+        } else if (data.type === 'nameUpdate') {
+            teams[data.team].name = data.name;
+        }
 
-  ws.on('message', (message) => {
-      const data = JSON.parse(message);
-      broadcast(data);
-  });
-
-  ws.on('close', () => {
-      console.log('WebSocket connection closed');
-  });
+        broadcast({ type: 'update', data: teams });
+    });
 });
-// Interval to check every client connection for activity
-setInterval(() => {
-  wss.clients.forEach((ws) => {
-    if (!ws.isAlive) return ws.terminate();
-    ws.isAlive = false;
-    ws.ping(null, false, true);  // Send a ping to the client
-  });
-}, 30000);  // Interval set for every 30 seconds
 
-// Start server
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+

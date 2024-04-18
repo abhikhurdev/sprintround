@@ -1,14 +1,12 @@
 const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 const socket = new WebSocket(protocol + '//' + window.location.host);
 
-socket.onopen = function() {
-    console.log('WebSocket connection established.');
-};
-
 socket.onmessage = function(event) {
     const data = JSON.parse(event.data);
-    document.getElementById('scoreDisplay').textContent = `Team A: ${data.teamA} - Team B: ${data.teamB}`;
-    console.log('Data received:', data);
+    if (data.type === 'update') {
+        const scores = Object.values(data.data).map(team => `${team.name}: ${team.score}`).join(', ');
+        document.getElementById('scoreDisplay').textContent = scores;
+    }
 };
 
 socket.onerror = function(error) {
