@@ -1,4 +1,5 @@
-const socket = new WebSocket('ws://localhost:3000');
+const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+const socket = new WebSocket(protocol + '//' + window.location.host);
 
 function updateScore(team, points) {
   if (team === 'Team A') {

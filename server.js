@@ -23,21 +23,23 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.isAlive = true;
 
+  // Send initial score when a new client connects
+  const initialScore = { teamA: 0, teamB: 0 };
+  ws.send(JSON.stringify(initialScore));
+
   ws.on('pong', () => {
-    ws.isAlive = true;  // Mark the connection as active
+      ws.isAlive = true;
   });
 
   ws.on('message', (message) => {
-    const data = JSON.parse(message);
-    // Broadcast message to all connected clients
-    broadcast(data);
+      const data = JSON.parse(message);
+      broadcast(data);
   });
 
   ws.on('close', () => {
-    console.log('WebSocket connection closed');
+      console.log('WebSocket connection closed');
   });
 });
-
 // Interval to check every client connection for activity
 setInterval(() => {
   wss.clients.forEach((ws) => {
