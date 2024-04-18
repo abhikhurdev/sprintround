@@ -1,5 +1,4 @@
-const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-const socket = new WebSocket(protocol + '//' + window.location.host);
+const socket = new WebSocket('ws://' + window.location.host);
 
 socket.onmessage = function(event) {
     const data = JSON.parse(event.data);
@@ -9,36 +8,39 @@ socket.onmessage = function(event) {
 };
 
 function updateUI(teams) {
-    const container = document.getElementById('teamControls');
-    container.innerHTML = ''; // Clear previous UI
+  const container = document.getElementById('teamControls');
+  container.innerHTML = ''; // Clear previous UI
 
-    for (const [key, team] of Object.entries(teams)) {
-        const teamDiv = document.createElement('div');
+  // Convert teams object to array and sort by score
+  const sortedTeams = Object.entries(teams).sort((a, b) => b[1].score - a[1].score);
 
-        const nameLabel = document.createElement('label');
-        nameLabel.textContent = team.name + ': ';
-        teamDiv.appendChild(nameLabel);
+  sortedTeams.forEach(([key, team], index) => {
+      const teamDiv = document.createElement('div');
+      const rank = index + 1;  // Calculate ranking based on sort order
 
-        const scoreInput = document.createElement('input');
-        scoreInput.type = 'number';
-        scoreInput.value = team.score;
-        scoreInput.addEventListener('change', () => {
-            socket.send(JSON.stringify({ type: 'scoreUpdate', team: key, score: parseInt(scoreInput.value, 10) - team.score }));
-        });
-        teamDiv.appendChild(scoreInput);
-
-        const nameInput = document.createElement('input');
-        nameInput.value = team.name;
-        nameInput.addEventListener('change', () => {
-            socket.send(JSON.stringify({ type: 'nameUpdate', team: key, name: nameInput.value }));
-        });
-        teamDiv.appendChild(nameInput);
-
-        container.appendChild(teamDiv);
-    }
+      teamDiv.innerHTML = `
+          <label>${rank}. ${team.name}: </label>
+          <input type="number" value="${team.score}" onchange="updateScore('${key}', parseInt(this.value, 10) - teams['${key}'].score)">
+          <input value="${team.name}" onchange="updateName('${key}', this.value)">
+          <button onclick="removeTeam('${key}')">Remove</button>`;
+      container.appendChild(teamDiv);
+  });
 }
 
-socket.onerror = function(error) {
-    console.log('WebSocket Error:', error);
-};
 
+function updateScore(teamId, scoreChange) {
+    socket.send(JSON.stringify({ type: 'scoreUpdate', team: teamId, score: scoreChange }));
+}
+
+function updateName(teamId, newName) {
+    socket.send(JSON.stringify({ type: 'nameUpdate', team: teamId, name: newName }));
+}
+
+function addTeam() {
+    const teamId = `team${Date.now()}`;
+    socket.send(JSON.stringify({ type: 'addTeam', teamId: teamId, name: 'New Team' }));
+}
+
+function removeTeam(teamId) {
+    socket.send(JSON.stringify({ type: 'removeTeam', teamId: teamId }));
+}
