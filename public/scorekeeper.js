@@ -1,39 +1,49 @@
 const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 const socket = new WebSocket(protocol + '//' + window.location.host);
 
+// Store teams data locally for reference in change events
+let teams = {};
+
 socket.onmessage = function(event) {
     const data = JSON.parse(event.data);
     if (data.type === 'update') {
-        updateUI(data.data);
+        teams = data.data; // Update local teams data
+        updateUI(teams);
     }
 };
 
 function updateUI(teams) {
-  const container = document.getElementById('teamControls');
-  container.innerHTML = ''; // Clear previous UI
+    const container = document.getElementById('teamControls');
+    container.innerHTML = ''; // Clear previous UI
 
-  // Convert teams object to array and sort by score
-  const sortedTeams = Object.entries(teams).sort((a, b) => b[1].score - a[1].score);
+    // Convert teams object to array and sort by score
+    const sortedTeams = Object.entries(teams).sort((a, b) => b[1].score - a[1].score);
 
-  sortedTeams.forEach(([key, team], index) => {
-      const teamDiv = document.createElement('div');
-      const rank = index + 1;  // Calculate ranking based on sort order
+    sortedTeams.forEach(([key, team], index) => {
+        const teamDiv = document.createElement('div');
+        const rank = index + 1;  // Calculate ranking based on sort order
 
-      teamDiv.innerHTML = `
-          <label>${rank}. ${team.name}: </label>
-          <input type="number" value="${team.score}" onchange="updateScore('${key}', parseInt(this.value, 10) - teams['${key}'].score)">
-          <input value="${team.name}" onchange="updateName('${key}', this.value)">
-          <button onclick="removeTeam('${key}')">Remove</button>`;
-      container.appendChild(teamDiv);
-  });
+        teamDiv.innerHTML = `
+            <label>${rank}. ${team.name}: </label>
+            <input type="number" value="${team.score}" id="score-${key}">
+            <button onclick="updateScore('${key}')">Update Score</button>
+            <input value="${team.name}" id="name-${key}">
+            <button onclick="updateName('${key}')">Update Name</button>
+            <button onclick="removeTeam('${key}')">Remove</button>`;
+        container.appendChild(teamDiv);
+    });
 }
 
-
-function updateScore(teamId, scoreChange) {
+function updateScore(teamId) {
+    const scoreInput = document.getElementById(`score-${teamId}`);
+    const scoreValue = parseInt(scoreInput.value, 10);
+    const scoreChange = scoreValue - teams[teamId].score; // Calculate the change needed
     socket.send(JSON.stringify({ type: 'scoreUpdate', team: teamId, score: scoreChange }));
 }
 
-function updateName(teamId, newName) {
+function updateName(teamId) {
+    const nameInput = document.getElementById(`name-${teamId}`);
+    const newName = nameInput.value;
     socket.send(JSON.stringify({ type: 'nameUpdate', team: teamId, name: newName }));
 }
 
@@ -45,3 +55,7 @@ function addTeam() {
 function removeTeam(teamId) {
     socket.send(JSON.stringify({ type: 'removeTeam', teamId: teamId }));
 }
+
+socket.onerror = function(error) {
+    console.log('WebSocket Error:', error);
+};
