@@ -1,0 +1,318 @@
+.page_title {
+    font-size: 80px;
+    font-weight: 300;
+    margin: 30px 1px 30px 5px;
+    color: white;
+    text-shadow: 0 0 10px #000000;
+    line-height: 1;
+}
+
+.page_placeholder .background_image {
+    width:100%;
+    height: 100%;
+    z-index: -10;
+    position: fixed;
+    background-image: url("../images/sport.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    filter: blur(5px);
+    margin-left: -10px;
+    margin-top: -10px;
+}
+
+.top_navigation_pane {
+    margin:5px 0 5px 5px;
+    padding: 0;
+}
+
+.default_btn {
+    background-color: white;
+    transition: .5s;
+    height: 100%;
+    width: 100%;
+    color: #000000;
+    text-decoration: none;
+}
+
+.default_btn_selected {
+    background-color: #ffef37;
+}
+
+.default_btn.event_btn {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.default_btn:hover{
+    background-color: #00b0ff;
+    color: #ffffff;
+}
+
+.default_btn:active{
+    width: 95%;
+    height: 95%;
+}
+
+.default_btn div {
+    width: 100%;
+    text-align: center;
+}
+
+.default_btn div img{
+    width: 50%;
+    height: 50%;
+}
+
+.defaultTextField {
+    width: 100%;
+    height: 250px;
+    font-size: 32px;
+}
+
+.match_info{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 10px;
+    width: 95%;
+    height: auto;
+    background-color: rgba(172, 232, 233, 0.7);
+    border-radius: 5px;
+}
+
+.match_info .match_info_title {
+    padding: 15px;
+    font-size: 32px;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.match_info .content{
+    padding: 5px 10px 0 10px;
+    width: 95%;
+}
+
+.match_info .content textarea {
+    width:100%;
+    max-height: 90px;
+}
+
+.event_card_teams {
+    grid-area: team_name;
+    text-align: left;
+    vertical-align: top;
+    line-height: 0;
+}
+
+.event_card_teams h2{
+    margin: 0;
+    font-weight: 400;
+    font-size:30px;
+}
+
+.event_card_teams h5{
+    margin: 0;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.event_card_logo {
+    grid-area: logo;
+    align-content: center;
+}
+
+.event_card_logo img {
+    height: auto;
+    width: 75px;
+}
+
+.event_card_score {
+    grid-area: score;
+    text-align: center;
+}
+
+.event_card_score h2 {
+    font-size: 80px;
+    font-weight: 700;
+    line-height: 0.8;
+}
+
+.event_card_explore {
+    grid-area: explore;
+    align-content: center;
+}
+.event_card_explore a {
+    width:100%;
+    margin: 1px 5px 1px 5px;
+    background-color: #304ffe;
+    color: #ffffff;
+}
+
+.event_card {
+    display: grid;
+    grid-template-areas:
+        'team_name team_name logo'
+        'score score score'
+        'explore explore explore';
+    background-color: #9acfea;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 30px 30px 10px 30px;
+    width: 100%;
+    height: inherit;
+    margin-top:20px;
+}
+
+.section_card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 20px 20px 10px 20px;
+    width: 92%;
+    padding: 20px 20px 80px 20px;
+    float: left;
+    height: inherit;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+}
+
+.section_card .section_card_title {
+    font-size: 50px;
+    font-weight: 300;
+    padding: 10px 0 10px 5px;
+    margin-bottom: 30px;
+}
+
+.event_mod_card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 60%;
+    margin: 0 0 0 20px ;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+}
+
+.event_mod_card .team_name {
+    font-size: 60px;
+    font-weight: 500;
+    text-align: center;
+    color: #ffffff;
+}
+
+.event_mod_card .score {
+    font-size: 50px;
+    font-weight: 800;
+    text-align: center;
+    color: #ffffff;
+}
+
+.btn_score_up {
+    border-radius: 10px;
+    background-color: #4cae4c;
+    margin: 10px;
+}
+
+.btn_score_down {
+    border-radius: 10px;
+    background-color: #a94442;
+    margin: 10px;
+}
+
+.btn_score_up  .score_inc_btn,
+.btn_score_down .score_inc_btn {
+    display: inline-block;
+    width: 50%;
+    height: 80%;
+    padding: 3px 20px 3px 20px;
+    background-color: #3d5afe;
+    margin: 5px 5px 5px 10px;
+    font-weight: 400;
+    font-size: 20px;
+    color: #ffffff;
+
+}
+
+.btn_score_up .score_inc_value,
+.btn_score_down .score_inc_value {
+    display: inline-block;
+    width: 30%;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.score_inc_value_txt {
+    font-size: 30px;
+    color: #ffffff;
+}
+
+.dashboard_btn {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 70%;
+    transition: .5s;
+    height: 100%;
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+    margin-top: 50px;
+    border-radius: 10px;
+    background-color: rgba(1, 132, 6, 0.8);
+}
+
+.dashboard_btn:hover{
+    background-color: #00b0ff;
+    color: #ffffff;
+}
+
+.dashboard_btn:active{
+    width: 65%;
+    height: 95%;
+}
+
+.dashboard_btn i {
+    font-size: 110px;
+}
+
+.dashboard_btn .dashboard_btn_name {
+    font-size: 50px;
+}
+
+.explore_team_icon {
+    background-color: rgba(244, 255, 87, 0.8);
+}
+
+.explore_event_team_info {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.explore_event_team_info h4 {
+    width: 100%;
+    font-weight: 200;
+    font-size: 80px;
+    line-height: 0.8;
+}
+
+.explore_event_team_info h5 {
+    width:100%;
+    font-weight: 600;
+    font-size: 60px;
+}
+
+.chat_area {
+    overflow: auto;
+    height: 150px;
+    width:100%;
+}
+
+.chat_item {
+    background-color: #3E4EB8;
+    color: #ffffff;
+    border-radius: 20px;
+    font-size: 14px;
+    height: 20px;
+    margin: 10px;
+    padding: 10px;
+    transition: .6s;
+    width: auto;
+}
+
+.chat_input_area {
+    height: 60px;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}

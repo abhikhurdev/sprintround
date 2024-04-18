@@ -1,0 +1,65 @@
+<div class="background_image"></div>
+<div class="top_navigation_pane">
+    <a href="dashboard">Dashboard</a> - <a href="myEvents">My Events</a>
+</div>
+<div class="page_title">
+    Event Editor
+</div>
+<md-grid-list md-cols="2" md-cols-sm="1" md-cols-md="2" md-cols-lg="2" md-row-height="300px">
+    <md-grid-tile md-colspan="1">
+        <div class="event_mod_card">
+            <h2 class="team_name">{{exploredEvent.team1}}</h2>
+            <h2 class="score">{{exploredEvent.team1_score}}</h2>
+            <div class="btn_score_up">
+                <a class="score_inc_btn md-button md-shadow-animated md-active" md-ink-ripple="true" ng-click="updateScore(exploredEvent.eventId, 1, score.team1.inc, false)">+</a>
+                <md-input-container class="score_inc_value md-block" flex-gt-sm="">
+                    <input class="score_inc_value_txt" ng-model="score.team1.inc">
+                </md-input-container>
+            </div>
+            <div class="btn_score_down">
+                <a class="score_inc_btn md-button md-shadow-animated md-active" md-ink-ripple="true" ng-click="updateScore(exploredEvent.eventId, 1, score.team1.dec, true)">-</a>
+                <md-input-container class="score_inc_value md-block" flex-gt-sm="">
+                    <input class="score_inc_value_txt" ng-model="score.team1.dec">
+                </md-input-container>
+            </div>
+        </div>
+    </md-grid-tile>
+    <md-grid-tile md-colspan="1">
+        <div class="event_mod_card">
+            <h2 class="team_name">{{exploredEvent.team2}}</h2>
+            <h2 class="score">{{exploredEvent.team2_score}}</h2>
+            <div class="btn_score_up">
+                <a class="score_inc_btn md-button md-shadow-animated md-active" md-ink-ripple="true" ng-click="updateScore(exploredEvent.eventId, 2, score.team2.inc, false)">+</a>
+                <md-input-container class="score_inc_value md-block" flex-gt-sm="">
+                    <input class="score_inc_value_txt" ng-model="score.team2.inc">
+                </md-input-container>
+            </div>
+            <div class="btn_score_down">
+                <a class="score_inc_btn md-button md-shadow-animated md-active" md-ink-ripple="true" ng-click="updateScore(exploredEvent.eventId, 2, score.team2.dec, true)">-</a>
+                <md-input-container class="score_inc_value md-block" flex-gt-sm="">
+                    <input class="score_inc_value_txt" ng-model="score.team2.dec">
+                </md-input-container>
+            </div>
+        </div>
+    </md-grid-tile>
+    <md-grid-tile md-colspan="2">
+        <div class="match_info">
+            <div class="match_info_title">Info Feed Update</div>
+            <div class="content">
+                {{newsFeed}}
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <input class="score_inc_value_txt" ng-model="score.update" ng-keypress="updateNewsFeed($event)">
+                </md-input-container>
+            </div>
+        </div>
+    </md-grid-tile>
+</md-grid-list>
+<div class="match_info">
+    <div class="match_info_title">
+        WINNER DECLARATION
+    </div>
+    <div class="content">
+        <md-button class="md-active md-raised md-ink-ripple" md-colors="{background: 'red'}" ng-click="closeEvent(exploredEvent.eventId)">{{exploredEvent.team1}}</md-button>
+        <md-button class="md-active md-raised md-ink-ripple" md-colors="{background: 'red'}" ng-click="closeEvent(exploredEvent.eventId)">{{exploredEvent.team2}}</md-button>
+    </div>
+</div>
