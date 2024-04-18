@@ -43,9 +43,7 @@ wss.on('connection', (ws) => {
       ws.isAlive = true;
   });
 
-  ws.on('message', (message) => {
-      // Handle incoming messages
-  });
+  
 
   ws.on('close', () => {
       console.log('WebSocket connection closed');
