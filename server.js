@@ -9,8 +9,6 @@ const wss = new WebSocket.Server({ server });
 app.use(express.static('public'));
 
 let teams = {};
-var keepAlive = null;
-var keepAliveInterval = 5000;
 
 const broadcast = (data) => {
     wss.clients.forEach(client => {
@@ -21,26 +19,16 @@ const broadcast = (data) => {
 };
 
 wss.on('connection', (ws) => {
-  function ping(client) {
-    if (ws.readyState === SOCKET_OPEN) {
-      ws.send('__ping__');
-    } else {
-      console.log('Server - connection has been closed for client ' + client);
-    }
-  }
+  console.log('Client connected');
+    ws.isAlive = true;
+
+    ws.on('pong', () => {
+        ws.isAlive = true;  // Confirm the client is alive when a pong is received
+    });
   ws.send(JSON.stringify({ type: 'update', data: teams }));
-  function pong(client) {
-    console.log('Server - ' + client + ' is still active');
-    clearTimeout(keepAlive);
-    setTimeout(function () {
-      ping(client);
-    }, keepAliveInterval);
-  }
+  
     ws.on('message', (message) => {
         const data = JSON.parse(message);
-        if(data.keepAlive !== undefined){
-          pong(data.keepAlive.toLowerCase())
-        }
         
         switch (data.type) {
             case 'scoreUpdate':
@@ -62,6 +50,14 @@ wss.on('connection', (ws) => {
       console.log('WebSocket connection closed');
   });
 });
+const interval = setInterval(() => {
+  wss.clients.forEach((ws) => {
+      if (!ws.isAlive) return ws.terminate();
+      
+      ws.isAlive = false;
+      ws.ping(() => {});  // Ping the client to keep the connection alive
+  });
+}, 3000);  // every 10 seconds
 
 
 const PORT = process.env.PORT || 3000;

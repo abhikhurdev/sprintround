@@ -10,9 +10,6 @@ socket.onmessage = function(event) {
         teams = data.data; // Update local teams data
         updateUI(teams);
     }
-    if (message.data === '__ping__') {
-      ws.send(JSON.stringify({keepAlive}));
-    }
 };
 
 function updateUI(teams) {
@@ -62,3 +59,10 @@ function removeTeam(teamId) {
 socket.onerror = function(error) {
     console.log('WebSocket Error:', error);
 };
+
+socket.onclose = function() {
+  console.log('WebSocket connection closed. Attempting to reconnect...');
+  setTimeout(setupWebSocket, 3000);  // attempt to reconnect after 3 seconds
+};
+
+window.websocket = socket;
