@@ -8,7 +8,7 @@ body {
 }
 
 h1 {
-    color: #007BFF;
+    color: #0eb036;
 }
 
 div#teamControls, div#scoreDisplay {
@@ -28,7 +28,7 @@ input[type="number"], input[type="text"] {
 }
 
 button {
-    background-color: #007BFF;
+    background-color: #0eb036;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -39,7 +39,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #095e23;
 }
 
 label {
