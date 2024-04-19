@@ -36,7 +36,6 @@ wss.on('connection', (ws) => {
                 delete teams[data.teamId];
                 break;
         }
-        saveTeams();
         broadcast({ type: 'update', data: teams });
     });
   ws.on('close', () => {
