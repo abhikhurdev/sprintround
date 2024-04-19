@@ -7,8 +7,11 @@ socket.onmessage = function(event) {
         const teams = data.data;
         displayTeams(teams);
     }
+    if (message.data === '__ping__') {
+      ws.send(JSON.stringify({keepAlive}));
+    }
 };
-
+  
 function displayTeams(teams) {
     const scoreDisplay = document.getElementById('scoreDisplay');
     scoreDisplay.innerHTML = ''; // Clear previous content
