@@ -24,7 +24,7 @@ function updateUI(teams) {
         const rank = index + 1;  // Calculate ranking based on sort order
 
         teamDiv.innerHTML = `
-            <label>Team ${rank}. ${team.name}: </label>
+            <label>(Team ${rank}) ${team.name}: </label>
             <input type="number" value="${team.score}" id="score-${key}">
             <button onclick="updateScore('${key}')">Update Score</button>
             <input value="${team.name}" id="name-${key}">
