@@ -18,13 +18,13 @@ function updateUI(teams) {
 
     // Convert teams object to array and sort by score
     const sortedTeams = Object.entries(teams).sort((a, b) => b[1].score - a[1].score);
-
-    teams.forEach(([key, team], index) => {
+    const unsortedTeams = Object.entries(teams)
+    unsortedTeams.forEach(([key, team], index) => {
         const teamDiv = document.createElement('div');
         const rank = index + 1;  // Calculate ranking based on sort order
 
         teamDiv.innerHTML = `
-            <label>${rank}. ${team.name}: </label>
+            <label>Team ${rank}. ${team.name}: </label>
             <input type="number" value="${team.score}" id="score-${key}">
             <button onclick="updateScore('${key}')">Update Score</button>
             <input value="${team.name}" id="name-${key}">
