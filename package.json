@@ -4,13 +4,12 @@
     "description": "A live updating scoreboard website using Node.js, Express, and WebSockets.",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js"
+        "start": "node server.js"
     },
     "dependencies": {
-      "express": "^4.17.1",
-      "ws": "^7.4.6"
+        "express": "^4.17.1",
+        "ws": "^7.5.9"
     },
     "author": "Abhi Khurana",
     "license": "UNLICENSED"
-  }
-  
+}

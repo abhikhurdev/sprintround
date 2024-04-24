@@ -16,7 +16,7 @@ function displayTeams(teams) {
 
     // Convert teams object to array and sort by score
     const sortedTeams = Object.entries(teams).sort((a, b) => b[1].score - a[1].score);
-
+    
     sortedTeams.forEach(([key, team], index) => {
         const rank = index + 1;
         const teamInfo = document.createElement('p');
