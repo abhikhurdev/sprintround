@@ -49,7 +49,7 @@ function updateName(teamId) {
 
 function addTeam() {
     const teamId = `team${Date.now()}`;
-    socket.send(JSON.stringify({ type: 'addTeam', teamId: teamId, name: 'New Team' }));
+    socket.send(JSON.stringify({ type: 'addTeam', teamId: teamId, name: 'Enter Team Name' }));
 }
 
 function removeTeam(teamId) {
